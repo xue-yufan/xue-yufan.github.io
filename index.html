@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我的数字花园 · 总览</title>
+    <!-- 
+       ============================================
+       静态网站总导航 · index.html
+       用途：作为博客/个人站点的入口，聚合所有子页面链接。
+       请将本文件放在仓库根目录，GitHub Pages 会自动识别。
+       
+       使用说明：
+       1. 替换所有 “示例” 文字为你自己的内容。
+       2. 修改导航链接指向你的实际页面（如 /blog/, /about/）。
+       3. 根据需要增删文章卡片、项目卡片。
+       4. 页脚信息记得更新。
+       ============================================
+    -->
+    <style>
+        :root {
+            --bg: #fdfbf7;
+            --surface: #ffffff;
+            --text: #2c2c2c;
+            --text-secondary: #6b6b6b;
+            --accent: #c57b57;
+            --accent-hover: #a85e3f;
+            --border: #e8e2d9;
+            --tag-bg: #f5efe6;
+            --shadow-sm: 0 1px 2px rgba(0,0,0,0.03), 0 2px 8px rgba(0,0,0,0.04);
+            --shadow-md: 0 2px 8px rgba(0,0,0,0.06), 0 6px 20px rgba(0,0,0,0.07);
+            --radius: 12px;
+            --transition: 0.2s ease;
+            --max-width: 800px;
+            --font-sans: 'Inter', 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', sans-serif;
+            --font-serif: 'Noto Serif SC', 'STSong', 'Songti SC', 'Georgia', 'Times New Roman', serif;
+        }
+
+        * { margin:0; padding:0; box-sizing:border-box; }
+
+        body {
+            font-family: var(--font-sans);
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* 导航栏 */
+        .navbar {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(253, 251, 247, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+            padding: 0 20px;
+        }
+        .navbar-inner {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 54px;
+        }
+        .logo {
+            font-family: var(--font-serif);
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--text);
+            text-decoration: none;
+            letter-spacing: 0.02em;
+        }
+        .logo:hover { color: var(--accent); }
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 28px;
+            align-items: center;
+        }
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: color var(--transition);
+            position: relative;
+        }
+        .nav-links a:hover { color: var(--text); }
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            left: 0; bottom: -4px;
+            width: 0; height: 2px;
+            background: var(--accent);
+            border-radius: 1px;
+            transition: width var(--transition);
+        }
+        .nav-links a:hover::after { width: 100%; }
+
+        .mobile-toggle {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--text);
+            padding: 8px;
+        }
+        .mobile-toggle svg { width: 24px; height: 24px; }
+
+        /* 主容器 */
+        .container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 32px 20px 60px;
+        }
+
+        /* 英雄区域 */
+        .hero {
+            text-align: center;
+            padding: 48px 0 32px;
+        }
+        .hero-avatar {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #e8d5c4, #c57b57);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.4rem;
+            color: white;
+            margin-bottom: 16px;
+            box-shadow: 0 4px 14px rgba(180, 120, 80, 0.25);
+            user-select: none;
+        }
+        .hero h1 {
+            font-family: var(--font-serif);
+            font-size: 2rem;
+            font-weight: 700;
+            letter-spacing: 0.02em;
+            margin-bottom: 8px;
+        }
+        .hero .subtitle {
+            color: var(--text-secondary);
+            font-size: 1.05rem;
+            max-width: 480px;
+            margin: 0 auto 20px;
+        }
+        .hero-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        .hero-links a {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: color var(--transition);
+        }
+        .hero-links a:hover { color: var(--accent); }
+        .hero-links svg { width: 18px; height: 18px; }
+
+        .divider {
+            border: none;
+            height: 1px;
+            background: var(--border);
+            margin: 28px 0 32px;
+            opacity: 0.7;
+        }
+
+        /* 区块标题 */
+        .section-head {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            margin-bottom: 18px;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .section-head h2 {
+            font-family: var(--font-serif);
+            font-size: 1.35rem;
+            font-weight: 700;
+            letter-spacing: 0.02em;
+        }
+        .section-head .more-link {
+            font-size: 0.9rem;
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .section-head .more-link:hover { color: var(--accent-hover); }
+
+        /* 卡片网格（文章/项目） */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 18px;
+            margin-bottom: 32px;
+        }
+        .card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 20px;
+            text-decoration: none;
+            color: inherit;
+            box-shadow: var(--shadow-sm);
+            transition: box-shadow var(--transition), transform var(--transition), border-color var(--transition);
+            display: flex;
+            flex-direction: column;
+        }
+        .card:hover {
+            box-shadow: var(--shadow-md);
+            transform: translateY(-2px);
+            border-color: #d6cbb9;
+        }
+        .card .meta {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 8px;
+            flex-wrap: wrap;
+        }
+        .card .date {
+            font-size: 0.78rem;
+            color: var(--text-secondary);
+            letter-spacing: 0.02em;
+        }
+        .card .tag {
+            display: inline-block;
+            font-size: 0.72rem;
+            font-weight: 500;
+            background: var(--tag-bg);
+            color: var(--accent);
+            padding: 2px 10px;
+            border-radius: 20px;
+            letter-spacing: 0.03em;
+        }
+        .card h3 {
+            font-family: var(--font-serif);
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin: 6px 0 8px;
+            transition: color var(--transition);
+            line-height: 1.35;
+        }
+        .card:hover h3 { color: var(--accent); }
+        .card .desc {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            line-height: 1.55;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            flex: 1;
+        }
+
+        /* 关于我片段 */
+        .about-snippet {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 22px 24px;
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            align-items: flex-start;
+            gap: 18px;
+            flex-wrap: wrap;
+        }
+        .about-avatar-sm {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: #e8d5c4;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.6rem;
+            color: white;
+        }
+        .about-text h4 {
+            font-family: var(--font-serif);
+            font-size: 1.1rem;
+            margin-bottom: 4px;
+        }
+        .about-text p {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            max-width: 500px;
+        }
+
+        /* 页脚 */
+        .footer {
+            text-align: center;
+            padding: 30px 20px;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            border-top: 1px solid var(--border);
+            margin-top: 20px;
+        }
+        .footer .heart {
+            color: #e07b7b;
+            display: inline-block;
+            animation: pulse 1.6s infinite;
+        }
+        @keyframes pulse {
+            0%,100%{ transform: scale(1); }
+            50%{ transform: scale(1.15); }
+        }
+
+        /* 响应式 */
+        @media (max-width: 640px) {
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 54px;
+                left: 0; right: 0;
+                background: rgba(253, 251, 247, 0.96);
+                backdrop-filter: blur(12px);
+                -webkit-backdrop-filter: blur(12px);
+                border-bottom: 1px solid var(--border);
+                padding: 16px 20px;
+                gap: 16px;
+                z-index: 99;
+            }
+            .nav-links.open { display: flex; }
+            .mobile-toggle { display: block; }
+            .hero { padding: 36px 0 20px; }
+            .hero h1 { font-size: 1.6rem; }
+            .card-grid { grid-template-columns: 1fr; }
+            .about-snippet { flex-direction: column; align-items: center; text-align: center; }
+        }
+
+        /* 暗色模式适配 */
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg: #1e1d1a;
+                --surface: #2a2926;
+                --text: #e2ddd4;
+                --text-secondary: #a9a49b;
+                --accent: #d4986c;
+                --accent-hover: #e0a87c;
+                --border: #3e3a35;
+                --tag-bg: #33302a;
+                --shadow-sm: 0 1px 2px rgba(0,0,0,0.2), 0 2px 8px rgba(0,0,0,0.2);
+                --shadow-md: 0 2px 8px rgba(0,0,0,0.3), 0 6px 20px rgba(0,0,0,0.3);
+            }
+            .navbar { background: rgba(30, 29, 26, 0.85); }
+            .about-avatar-sm { background: #5a4a38; }
+            .hero-avatar { background: linear-gradient(135deg, #5a4a38, #8b6f50); }
+            .card:hover { border-color: #4c4640; }
+            @media (max-width: 640px) {
+                .nav-links { background: rgba(30, 29, 26, 0.96); }
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- ========== 导航栏 ========== -->
+    <nav class="navbar">
+        <div class="navbar-inner">
+            <a href="/" class="logo">🌱 我的数字花园</a>
+            <button class="mobile-toggle" id="menuToggle" aria-label="打开菜单">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg>
+            </button>
+            <ul class="nav-links" id="navLinks">
+                <!-- 
+                    修改 href 指向你的实际页面，
+                    例如：<li><a href="/blog/">博客</a></li>
+                -->
+                <li><a href="/">首页</a></li>
+                <li><a href="/blog/">文章</a></li>
+                <li><a href="/projects/">项目</a></li>
+                <li><a href="/about/">关于</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="container">
+        
+        <!-- ========== 欢迎区域（Hero） ========== -->
+        <section class="hero">
+            <!-- 头像占位：可以用文字emoji，也可以替换为 <img> -->
+            <div class="hero-avatar" aria-hidden="true">🧑‍🚀</div>
+            <!-- 👆 示例：若用图片，替换为 <img src="avatar.jpg" alt="头像" class="hero-avatar" style="object-fit:cover;"> -->
+            
+            <h1>嗨，我是怜我默雪心绪</h1>
+            <p class="subtitle">
+                这里是我在互联网上的小角落，记录技术、阅读与生活中的灵感碎片。
+            </p>
+            <div class="hero-links">
+                <!-- 
+                    社交/联系链接示例，可增减。
+                    修改 href 和文字。
+                -->
+                <a href="https://github.com/你的用户名" target="_blank" rel="noopener">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.385-1.335-1.755-1.335-1.755-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.605-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.295 24 12c0-6.63-5.37-12-12-12z"/></svg>
+                    GitHub
+                </a>
+                <a href="mailto:you@example.com">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 4L12 13 2 4"/></svg>
+                    邮箱
+                </a>
+                <!-- 可继续添加其他链接，如 Twitter、知乎等 -->
+            </div>
+        </section>
+
+        <hr class="divider" aria-hidden="true">
+
+        <!-- ========== 最新文章板块 ========== -->
+        <section>
+            <div class="section-head">
+                <h2>📝 最近更新</h2>
+                <a href="/blog/" class="more-link">浏览全部文章 →</a>
+            </div>
+            <div class="card-grid">
+                <!-- 
+                    文章卡片示例 × 4 
+                    每个卡片都是 <a> 标签，直接指向文章页面。
+                    替换内部的日期、标签、标题、摘要。
+                -->
+                <a href="/blog/css-dark-mode/" class="card">
+                    <div class="meta">
+                        <span class="date">2026-05-01</span>
+                        <span class="tag">CSS</span>
+                    </div>
+                    <h3>纯 CSS 实现优雅的暗色模式</h3>
+                    <p class="desc">利用 prefers-color-scheme 与自定义属性，零 JS 打造自适应主题切换……</p>
+                </a>
+
+                <a href="/blog/promise-async/" class="card">
+                    <div class="meta">
+                        <span class="date">2026-04-22</span>
+                        <span class="tag">JavaScript</span>
+                    </div>
+                    <h3>从回调到 async/await 的思维转变</h3>
+                    <p class="desc">理解 Promise 背后的设计哲学，让异步代码更可读……</p>
+                </a>
+
+                <a href="/blog/git-workflow/" class="card">
+                    <div class="meta">
+                        <span class="date">2026-04-10</span>
+                        <span class="tag">工具</span>
+                    </div>
+                    <h3>Git 分支策略与 Rebase 实践</h3>
+                    <p class="desc">团队协作中如何规范提交历史，减少合并冲突……</p>
+                </a>
+
+                <a href="/blog/static-site-journey/" class="card">
+                    <div class="meta">
+                        <span class="date">2026-03-28</span>
+                        <span class="tag">随笔</span>
+                    </div>
+                    <h3>将博客迁移到 GitHub Pages 的记录</h3>
+                    <p class="desc">从动态博客到静态站点的选择理由与部署过程……</p>
+                </a>
+            </div>
+        </section>
+
+        <!-- ========== 项目精选板块 ========== -->
+        <section>
+            <div class="section-head">
+                <h2>🛠️ 项目精选</h2>
+                <a href="/projects/" class="more-link">查看所有项目 →</a>
+            </div>
+            <div class="card-grid">
+                <!-- 
+                    项目卡片示例，同样可以替换为实际项目。
+                    注意：项目可能没有日期，可以只放标签和描述。
+                -->
+                <a href="https://github.com/你的用户名/项目名" class="card" target="_blank" rel="noopener">
+                    <div class="meta">
+                        <span class="tag">开源</span>
+                    </div>
+                    <h3>轻量级 Markdown 编辑器</h3>
+                    <p class="desc">一个基于 Web 的实时预览编辑器，支持自定义主题。</p>
+                </a>
+
+                <a href="https://github.com/你的用户名/项目名2" class="card" target="_blank" rel="noopener">
+                    <div class="meta">
+                        <span class="tag">工具</span>
+                    </div>
+                    <h3>静态站点生成器 CLI</h3>
+                    <p class="desc">用 Node.js 编写的极简生成器，将 Markdown 转为 HTML。</p>
+                </a>
+
+                <a href="/projects/design-system/" class="card">
+                    <div class="meta">
+                        <span class="tag">设计</span>
+                    </div>
+                    <h3>个人设计系统草案</h3>
+                    <p class="desc">一套用于个人项目的色彩、字体与组件规范。</p>
+                </a>
+            </div>
+        </section>
+
+        <!-- ========== 关于我 / 快速介绍 ========== -->
+        <section>
+            <div class="section-head">
+                <h2>👋 关于我</h2>
+                <a href="/about/" class="more-link">了解更多 →</a>
+            </div>
+            <div class="about-snippet">
+                <div class="about-avatar-sm" aria-hidden="true">🙋</div>
+                <!-- 如果用真实照片：<img src="avatar-small.jpg" alt="头像" class="about-avatar-sm" style="object-fit:cover;"> -->
+                <div class="about-text">
+                    <h4>[你的名字 / 昵称]</h4>
+                    <p>
+                        前端开发者 & 终身学习者。目前专注于构建清晰、可维护的 Web 体验。
+                        闲暇时喜欢摄影、阅读科幻小说，也在这里记录自己的思考。
+                    </p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ========== 页脚 ========== -->
+    <footer class="footer">
+        <p>© 2026 我的数字花园 · 用 <span class="heart">♥</span> 构建 · 托管于 GitHub Pages</p>
+        <!-- 👆 请修改成你自己的版权信息 -->
+    </footer>
+
+    <!-- 移动端菜单交互脚本 -->
+    <script>
+        (function() {
+            const toggle = document.getElementById('menuToggle');
+            const nav = document.getElementById('navLinks');
+            if (toggle && nav) {
+                toggle.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    nav.classList.toggle('open');
+                });
+                // 点击菜单外关闭
+                document.addEventListener('click', function(event) {
+                    if (!toggle.contains(event.target) && !nav.contains(event.target)) {
+                        nav.classList.remove('open');
+                    }
+                });
+            }
+        })();
+    </script>
+</body>
+</html>
